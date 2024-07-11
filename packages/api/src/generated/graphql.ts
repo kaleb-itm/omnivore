@@ -875,6 +875,7 @@ export type DiscoverFeedArticle = {
   author?: Maybe<Scalars['String']>;
   description: Scalars['String'];
   feed: Scalars['String'];
+  hidden?: Maybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
   publishedDate?: Maybe<Scalars['Date']>;
@@ -1319,6 +1320,29 @@ export type HiddenHomeSectionResult = HiddenHomeSectionError | HiddenHomeSection
 export type HiddenHomeSectionSuccess = {
   __typename?: 'HiddenHomeSectionSuccess';
   section?: Maybe<HomeSection>;
+};
+
+export type HideDiscoverArticleError = {
+  __typename?: 'HideDiscoverArticleError';
+  errorCodes: Array<HideDiscoverArticleErrorCode>;
+};
+
+export enum HideDiscoverArticleErrorCode {
+  BadRequest = 'BAD_REQUEST',
+  NotFound = 'NOT_FOUND',
+  Unauthorized = 'UNAUTHORIZED'
+}
+
+export type HideDiscoverArticleInput = {
+  discoverArticleId: Scalars['ID'];
+  setHidden: Scalars['Boolean'];
+};
+
+export type HideDiscoverArticleResult = HideDiscoverArticleError | HideDiscoverArticleSuccess;
+
+export type HideDiscoverArticleSuccess = {
+  __typename?: 'HideDiscoverArticleSuccess';
+  id: Scalars['ID'];
 };
 
 export type Highlight = {
@@ -1818,6 +1842,7 @@ export type Mutation = {
   generateApiKey: GenerateApiKeyResult;
   googleLogin: LoginResult;
   googleSignup: GoogleSignupResult;
+  hideDiscoverArticle: HideDiscoverArticleResult;
   importFromIntegration: ImportFromIntegrationResult;
   joinGroup: JoinGroupResult;
   leaveGroup: LeaveGroupResult;
@@ -2004,6 +2029,11 @@ export type MutationGoogleLoginArgs = {
 
 export type MutationGoogleSignupArgs = {
   input: GoogleSignupInput;
+};
+
+
+export type MutationHideDiscoverArticleArgs = {
+  input: HideDiscoverArticleInput;
 };
 
 
@@ -2424,6 +2454,7 @@ export type QueryGetDiscoverFeedArticlesArgs = {
   discoverTopicId: Scalars['String'];
   feedId?: InputMaybe<Scalars['ID']>;
   first?: InputMaybe<Scalars['Int']>;
+  showHidden?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -4492,6 +4523,11 @@ export type ResolversTypes = {
   HiddenHomeSectionErrorCode: HiddenHomeSectionErrorCode;
   HiddenHomeSectionResult: ResolversTypes['HiddenHomeSectionError'] | ResolversTypes['HiddenHomeSectionSuccess'];
   HiddenHomeSectionSuccess: ResolverTypeWrapper<HiddenHomeSectionSuccess>;
+  HideDiscoverArticleError: ResolverTypeWrapper<HideDiscoverArticleError>;
+  HideDiscoverArticleErrorCode: HideDiscoverArticleErrorCode;
+  HideDiscoverArticleInput: HideDiscoverArticleInput;
+  HideDiscoverArticleResult: ResolversTypes['HideDiscoverArticleError'] | ResolversTypes['HideDiscoverArticleSuccess'];
+  HideDiscoverArticleSuccess: ResolverTypeWrapper<HideDiscoverArticleSuccess>;
   Highlight: ResolverTypeWrapper<Highlight>;
   HighlightEdge: ResolverTypeWrapper<HighlightEdge>;
   HighlightReply: ResolverTypeWrapper<HighlightReply>;
@@ -5082,6 +5118,10 @@ export type ResolversParentTypes = {
   HiddenHomeSectionError: HiddenHomeSectionError;
   HiddenHomeSectionResult: ResolversParentTypes['HiddenHomeSectionError'] | ResolversParentTypes['HiddenHomeSectionSuccess'];
   HiddenHomeSectionSuccess: HiddenHomeSectionSuccess;
+  HideDiscoverArticleError: HideDiscoverArticleError;
+  HideDiscoverArticleInput: HideDiscoverArticleInput;
+  HideDiscoverArticleResult: ResolversParentTypes['HideDiscoverArticleError'] | ResolversParentTypes['HideDiscoverArticleSuccess'];
+  HideDiscoverArticleSuccess: HideDiscoverArticleSuccess;
   Highlight: Highlight;
   HighlightEdge: HighlightEdge;
   HighlightReply: HighlightReply;
@@ -5972,6 +6012,7 @@ export type DiscoverFeedArticleResolvers<ContextType = ResolverContext, ParentTy
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   feed?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hidden?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publishedDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
@@ -6318,6 +6359,20 @@ export type HiddenHomeSectionResultResolvers<ContextType = ResolverContext, Pare
 
 export type HiddenHomeSectionSuccessResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['HiddenHomeSectionSuccess'] = ResolversParentTypes['HiddenHomeSectionSuccess']> = {
   section?: Resolver<Maybe<ResolversTypes['HomeSection']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type HideDiscoverArticleErrorResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['HideDiscoverArticleError'] = ResolversParentTypes['HideDiscoverArticleError']> = {
+  errorCodes?: Resolver<Array<ResolversTypes['HideDiscoverArticleErrorCode']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type HideDiscoverArticleResultResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['HideDiscoverArticleResult'] = ResolversParentTypes['HideDiscoverArticleResult']> = {
+  __resolveType: TypeResolveFn<'HideDiscoverArticleError' | 'HideDiscoverArticleSuccess', ParentType, ContextType>;
+};
+
+export type HideDiscoverArticleSuccessResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['HideDiscoverArticleSuccess'] = ResolversParentTypes['HideDiscoverArticleSuccess']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -6712,6 +6767,7 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   generateApiKey?: Resolver<ResolversTypes['GenerateApiKeyResult'], ParentType, ContextType, RequireFields<MutationGenerateApiKeyArgs, 'input'>>;
   googleLogin?: Resolver<ResolversTypes['LoginResult'], ParentType, ContextType, RequireFields<MutationGoogleLoginArgs, 'input'>>;
   googleSignup?: Resolver<ResolversTypes['GoogleSignupResult'], ParentType, ContextType, RequireFields<MutationGoogleSignupArgs, 'input'>>;
+  hideDiscoverArticle?: Resolver<ResolversTypes['HideDiscoverArticleResult'], ParentType, ContextType, RequireFields<MutationHideDiscoverArticleArgs, 'input'>>;
   importFromIntegration?: Resolver<ResolversTypes['ImportFromIntegrationResult'], ParentType, ContextType, RequireFields<MutationImportFromIntegrationArgs, 'integrationId'>>;
   joinGroup?: Resolver<ResolversTypes['JoinGroupResult'], ParentType, ContextType, RequireFields<MutationJoinGroupArgs, 'inviteCode'>>;
   leaveGroup?: Resolver<ResolversTypes['LeaveGroupResult'], ParentType, ContextType, RequireFields<MutationLeaveGroupArgs, 'groupId'>>;
@@ -8092,6 +8148,9 @@ export type Resolvers<ContextType = ResolverContext> = {
   HiddenHomeSectionError?: HiddenHomeSectionErrorResolvers<ContextType>;
   HiddenHomeSectionResult?: HiddenHomeSectionResultResolvers<ContextType>;
   HiddenHomeSectionSuccess?: HiddenHomeSectionSuccessResolvers<ContextType>;
+  HideDiscoverArticleError?: HideDiscoverArticleErrorResolvers<ContextType>;
+  HideDiscoverArticleResult?: HideDiscoverArticleResultResolvers<ContextType>;
+  HideDiscoverArticleSuccess?: HideDiscoverArticleSuccessResolvers<ContextType>;
   Highlight?: HighlightResolvers<ContextType>;
   HighlightEdge?: HighlightEdgeResolvers<ContextType>;
   HighlightReply?: HighlightReplyResolvers<ContextType>;
