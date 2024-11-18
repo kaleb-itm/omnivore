@@ -39,7 +39,7 @@
     "@sentry/serverless": "^7.77.0",
     "addressparser": "^1.0.1",
     "bullmq": "^5.1.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.4.5",
     "parse-headers": "^2.0.4",
     "parse-multipart-data": "^1.2.1",
     "rfc2047": "^4.0.1",
